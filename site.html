@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Démo Curseur</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f4f4f8; color: #222; }
+    .page { max-width: 720px; margin: 32px auto; padding: 24px; background: #fff; border-radius: 16px; box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    h1 { margin-top: 0; }
+    select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 12px; margin: 18px 0; font-size: 16px; }
+    .preview { margin-top: 24px; padding: 32px; background: #eef2ff; border-radius: 16px; text-align: center; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Changer le curseur</h1>
+    <p>Teste plusieurs styles de curseur ici, sans installer l’extension.</p>
+    <select id="cursor-select">
+      <option value="default">Par défaut</option>
+      <option value="rainbow">Arc-en-ciel</option>
+      <option value="heart">Cœur</option>
+      <option value="star">Étoile</option>
+      <option value="pointer">Pointeur coloré</option>
+    </select>
+    <div class="preview" id="preview">Passe ta souris ici !</div>
+  </div>
+  <script>
+    const preview = document.getElementById('preview');
+    const select = document.getElementById('cursor-select');
+
+    const styles = {
+      default: 'auto',
+      rainbow: makeCursor(`<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ff3b3b"/><stop offset="25%" stop-color="#ffb400"/><stop offset="50%" stop-color="#00c957"/><stop offset="75%" stop-color="#3b9cff"/><stop offset="100%" stop-color="#a100ff"/></linearGradient></defs><circle cx="16" cy="16" r="13" fill="url(#g)" stroke="#ffffff" stroke-width="2"/></svg>`),
+      heart: makeCursor(`<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="#ff3366" d="M16 29s-11-7.4-11-16.5S9.5 3 16 10.5 27 3 27 12.5 16 29 16 29z"/></svg>`),
+      star: makeCursor(`<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="#ffd93b" stroke="#ffffff" stroke-width="2" d="M16 4l4.7 9.5L31 15l-7.5 7.4L25.3 29 16 24.5 6.7 29l1.8-6.6L1 15l10.3-1.5L16 4z"/></svg>`),
+      pointer: makeCursor(`<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="#8a5cff" d="M6 2l18 13-7 1 1 9-6-5-6 5 1-10-7-8z"/></svg>`)
+    };
+
+    function makeCursor(svg) {
+      return `url("data:image/svg+xml,${encodeURIComponent(svg)}") 16 16, auto`;
+    }
+
+    function updateCursor(styleName) {
+      preview.style.cursor = styles[styleName] || 'auto';
+    }
+
+    select.addEventListener('change', () => updateCursor(select.value));
+    updateCursor('default');
+  </script>
+</body>
+</html>
